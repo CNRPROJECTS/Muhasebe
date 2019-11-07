@@ -19,8 +19,8 @@ namespace MuhApi.Controllers
         {
             try
             {
-                var user = _dbrepo.UserLogin(u);
-                return Ok(user);
+                var LoginResult = _dbrepo.UserLogin(u);
+                return Ok(LoginResult);
             }
             catch (Exception e)
             {

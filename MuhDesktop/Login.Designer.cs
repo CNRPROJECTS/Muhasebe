@@ -47,6 +47,7 @@
             this.BtnCikis.TabIndex = 1;
             this.BtnCikis.Text = "Çıkış";
             this.BtnCikis.UseVisualStyleBackColor = true;
+            this.BtnCikis.Click += new System.EventHandler(this.BtnCikis_Click);
             // 
             // TxtUsername
             // 

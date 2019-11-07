@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using MuhDesktop.Service;
-
+using MuhShared;
 
 namespace MuhDesktop
 {
@@ -13,9 +13,18 @@ namespace MuhDesktop
             InitializeComponent();
         }
 
-        private void BtnGiris_Click(object sender, EventArgs e)
+        private  void BtnGiris_Click(object sender, EventArgs e)
         {
-         services.UserLogin(TxtUsername.Text,TxtPassword.Text);
+            MUserLogin userlogin = new MUserLogin();
+            userlogin.Username = TxtUsername.Text;
+            userlogin.Password = TxtPassword.Text;
+            services.UserLogin(userlogin);
+          
+        }
+
+        private void BtnCikis_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
