@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -7,43 +8,46 @@ using System.Windows.Forms;
 using MuhDesktop.Others;
 using MuhShared;
 using Newtonsoft.Json;
-
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Net;
+using System.Reflection;
+using System.Web;
+using RestSharp;
 
 namespace MuhDesktop.Service
 {
     class Services
     {
         readonly ErrorMessages ErrMes = new ErrorMessages();
-        public async void UserLogin(MUserLogin u)
+        public  void UserLogin(MUserLogin u)
         {
             try
+            { 
+                var client = new RestClient("http://localhost:8090/");
+                var request = new RestRequest("api/Login",Method.POST,dataFormat:DataFormat.Json);
+            request.AddHeader("Accept", "application/json");
+            request.Parameters.Clear();
+            var json = JsonConvert.SerializeObject(u);
+            request.AddParameter("application/json", ParameterType.RequestBody);
+            request.AddJsonBody(json);
+            var response = client.Execute<MUser>(request);
+            
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://localhost:8090/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    var response = await client.PostAsJsonAsync("api/Login", u);
-         
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = await response.Content.ReadAsStringAsync();
-                    }
-                    else
-                    {
-                        ErrMes.ShorErrorMessages(ErrorMessages.MessageTypes.Error, response.ReasonPhrase);
-                    }
-
-                }
+                ErrMes.ShorErrorMessages(ErrorMessages.MessageTypes.Error,response.StatusDescription);
+              
+            }
 
             }
             catch (Exception e)
             {
-                ErrMes.ShorErrorMessages(ErrorMessages.MessageTypes.Error, e.Message);
-                throw;
+                Console.WriteLine(e.Message);
+               
             }
         }
     }
 }
+
+
+

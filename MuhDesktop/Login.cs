@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MuhDesktop.Service;
 using MuhShared;
+using System.Collections.Generic;
 
 namespace MuhDesktop
 {
@@ -19,12 +21,19 @@ namespace MuhDesktop
             userlogin.Username = TxtUsername.Text;
             userlogin.Password = TxtPassword.Text;
             services.UserLogin(userlogin);
-          
+
+
+
+
+
         }
 
         private void BtnCikis_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+      
+         
     }
 }
